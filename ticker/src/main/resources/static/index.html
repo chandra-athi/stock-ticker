@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+</head>
+<body ng-app="ticker">
+
+<div ng-controller="ticker-controller" class="container">
+  <h2>Stock Ticker</h2>
+  <div class="table-responsive">          
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Live Price</th>
+        <th>% Change</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{stocks}}
+      <tr ng-repeat="stock in stocks" >
+        <td>{{stock.company}}</td>
+        <td>{{stock['live-price']}}</td>
+        <td>{{stock['closing-price'] - stock['live-price']}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+</body>
+
+<script src="../js/angular.min.js"></script>
+<script src="../app.js"></script>
+<script src="../components/ticker/ticker.controller.js"></script>
+</html>
