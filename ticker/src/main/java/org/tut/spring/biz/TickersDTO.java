@@ -1,7 +1,15 @@
 package org.tut.spring.biz;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(value=Include.NON_NULL)
 public class TickersDTO {
 
 	private String symbol;
@@ -13,6 +21,8 @@ public class TickersDTO {
 	
 	@JsonProperty(value="closing-price")
 	private float closingPrice;
+	
+	transient private List<SseEmitter> emitter = new ArrayList<SseEmitter>();
 
 	public String getSymbol() {
 		return symbol;
@@ -45,6 +55,11 @@ public class TickersDTO {
 	public void setClosingPrice(float closingPrice) {
 		this.closingPrice = closingPrice;
 	}
+	
+	public List<SseEmitter> getEmitter() {
+		return emitter;
+	}
+
 
 	@Override
 	public String toString() {

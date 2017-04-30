@@ -17,29 +17,17 @@ public class TickerController {
 	@Autowired
 	TickerBiz tickerBiz;
 	
-	SseEmitter sse = new SseEmitter(60 * 1000L);
-	
-	public void sendMessage() throws IOException{
-		sse.send("new message"+Math.random());
-	}
 	
 	@GetMapping(path="users/{user-id}/stocks")
 	public List<TickersDTO> fetchStocks(@PathVariable(name="user-id") String userId){
 		return tickerBiz.fetchTickersForUser(userId);
 	}
 	
-//	@PostMapping(path="sse")
-//	public SseEmitter emitter(@RequestBody List<String> tickerSymbols) throws IOException{
-//		sse = new SseEmitter(60 * 1000L);
-//		sse.send(new String("dude"));
-//		return sse;
-//	}
-	
-	@GetMapping(path="sse")
-	public SseEmitter emitter() throws IOException{
-		sse = new SseEmitter(60 * 1000L);
-		sse.send(new String("dude"));
-		return sse;
+	@GetMapping(path="users/{user-id}/updates")
+	public SseEmitter emitter(
+			@PathVariable(name="user-id") String userId
+			) throws IOException{
+		return tickerBiz.fetchUpdates();
 	}
 	
 }
