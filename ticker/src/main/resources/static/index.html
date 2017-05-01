@@ -11,8 +11,8 @@
 <div ng-controller="ticker-controller" class="container">
   <h2>Stock Ticker</h2>
   <div class="table-responsive">          
-  <table class="table">
-    <thead>
+  <table class="table table-inverse">
+    <thead class="table-inverse">
       <tr>
         <th>Company</th>
         <th>Live Price</th>
@@ -20,15 +20,20 @@
       </tr>
     </thead>
     <tbody>
-    {{stocks}}
-      <tr ng-repeat="stock in stocks" >
-        <td>{{stock.company}}</td>
-        <td>{{stock['live-price']}}</td>
-        <td>{{stock['closing-price'] - stock['live-price']}}</td>
+      <tr ng-repeat="(key,stock) in stockDetails" >
+        <td class="td-company" ng-bind="stock.company"></td>
+        <td ng-bind="stock['live-price']"></td>
+        <td ng-class="{true: 'stock-up', false: 'stock-down'}[stock['closing-price'] < stock['live-price']]">
+        <span ng-if="stock['closing-price'] < stock['live-price']" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+        <span ng-if="stock['closing-price'] > stock['live-price']-1" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+        {{((stock['closing-price'] - stock['live-price'])/stock['closing-price'])*100| number:2}}</td>
       </tr>
     </tbody>
   </table>
+  
+  
   </div>
+  {{stockDetails}}
 </div>
 
 </body>

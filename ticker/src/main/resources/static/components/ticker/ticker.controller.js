@@ -1,7 +1,7 @@
 tickerapp.controller('ticker-controller', function($http, $scope){
 	
 	$scope.stocks = [];
-	$scope.stockDetails = [];
+	$scope.stockDetails = {};
 	
 	$http.get('/users/chandru/stocks')
 	.then(function(response){
@@ -15,10 +15,16 @@ tickerapp.controller('ticker-controller', function($http, $scope){
 		}
 	});
 	
-	var source = new EventSource("/users/chandru/updates");
-	source.onmessage = function(event) {
-		console.log(JSON.parse(event.data));
-	};
+	
+	 var handleCallback = function (msg) {
+         $scope.$apply(function () {
+             var modifiedStock = JSON.parse(msg.data)
+             $scope.stockDetails[modifiedStock.symbol]['live-price'] = modifiedStock['live-price'];
+         });
+     }
+
+     var source = new EventSource('/users/chandru/updates');
+     source.addEventListener('message', handleCallback, false);
 
 	
 	

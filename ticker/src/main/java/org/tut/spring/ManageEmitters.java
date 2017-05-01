@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.tut.spring.biz.TickerLivePriceDTO;
 import org.tut.spring.biz.TickersDTO;
 
 @Component
@@ -21,22 +22,29 @@ public class ManageEmitters {
 	}
 	
 	public void updateClient(TickersDTO ticker){
-		ticker.getEmitter().forEach(emitter->{
+		for(int i=0;i< ticker.getEmitter().size(); i++){
+			SseEmitter emitter = ticker.getEmitter().get(i);
 			try{
-				emitter.send("{\"live-price\":"+ticker.getLivePrice()+"}"
-//				TODO: check why strig to json conversion is not working  
-						, MediaType.APPLICATION_JSON);
-				
+				emitter.send(new TickerLivePriceDTO(ticker)
+				, MediaType.APPLICATION_JSON);
 			}catch(IOException io){
 				io.printStackTrace();
-				try{
-				ticker.getEmitter().remove(emitter);
-				}catch(Exception e){
-					e.printStackTrace();
+				synchronized (ticker.getEmitter()) {
+					try{
+						ticker.getEmitter().remove(emitter);
+						--i;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 				}
+			}catch(Exception e){
+				synchronized (ticker.getEmitter()) {
+					ticker.getEmitter().remove(emitter);
+				}
+				e.printStackTrace();
+				--i;
 			}
-		});
-		
+		}
 	}
 	
 }

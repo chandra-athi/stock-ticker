@@ -25,7 +25,12 @@ public class GenerateRandomnContent {
 	
 	@Scheduled(fixedRate=1000)
 	public void scheduler() throws IOException{
+		float randomnFloat = 0;
 		List<TickersDTO> tickers = tickerBiz.fetchTickersForUser("chandru");
-		manageEmitters.updateClient(tickers.get(random.nextInt(tickers.size()-1)));
+		TickersDTO randomnTicker = tickers.get(random.nextInt(tickers.size()));
+		randomnFloat = random.nextInt(2)>0 ? random.nextInt(100)+random.nextFloat()
+				: -(random.nextInt(100)+random.nextFloat());
+		randomnTicker.setLivePrice(randomnTicker.getLivePrice()+randomnFloat);
+		manageEmitters.updateClient(randomnTicker);
 	}
 }

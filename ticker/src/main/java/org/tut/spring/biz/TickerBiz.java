@@ -46,6 +46,34 @@ public class TickerBiz {
 		ticker.setClosingPrice(2200);
 		tickers.add(ticker);
 		
+		ticker = new TickersDTO();
+		ticker.setSymbol("ICIC");
+		ticker.setCompany("ICICI Bank");
+		ticker.setLivePrice(1800.2f);
+		ticker.setClosingPrice(1700);
+		tickers.add(ticker);
+		
+		ticker = new TickersDTO();
+		ticker.setSymbol("UNTC");
+		ticker.setCompany("UNITEC");
+		ticker.setLivePrice(2105.5f);
+		ticker.setClosingPrice(2100);
+		tickers.add(ticker);
+		
+		ticker = new TickersDTO();
+		ticker.setSymbol("SUN");
+		ticker.setCompany("SUNTV");
+		ticker.setLivePrice(3000.0f);
+		ticker.setClosingPrice(2900);
+		tickers.add(ticker);
+		
+		ticker = new TickersDTO();
+		ticker.setSymbol("SBIN");
+		ticker.setCompany("State Bank Of India");
+		ticker.setLivePrice(3200.0f);
+		ticker.setClosingPrice(3100);
+		tickers.add(ticker);
+		
 	}
 
 	
